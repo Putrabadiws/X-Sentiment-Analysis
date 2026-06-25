@@ -1,7 +1,7 @@
 # Analisis Sentimen X
 
 Aplikasi **analisis sentimen tweet (X/Twitter) Bahasa Indonesia** — hasil rebuild
-dari 4 notebook skripsi (topik contoh: **kenaikan PPN 12%**) menjadi satu aplikasi
+dari 4 notebook (Projek Skripsi) - (topik contoh: **kenaikan PPN 12%**) menjadi satu aplikasi
 [Streamlit](https://streamlit.io) yang tinggal pakai.
 
 Satu layar, 5 tahap berurutan:
@@ -50,54 +50,6 @@ labelling **berbasis lexicon** (InSet-style), preprocessing Bahasa Indonesia pen
 
 ---
 
-## Struktur Proyek
-
-```
-Analisis-Sentimen-X/
-├── app.py                      # UI Streamlit (5 tab) — entry point aplikasi
-├── diagnose_crawl.py           # skrip throwaway: tes crawl di luar Streamlit
-├── requirements.txt            # dependency Python
-├── README.md                   # dokumen ini
-│
-├── .streamlit/
-│   └── config.toml             # tema dark modern (warna/font)
-│
-├── src/                        # paket inti — semua logika non-UI
-│   ├── __init__.py
-│   ├── config.py               # path & parameter terpusat (single source of truth)
-│   ├── crawling.py             # crawl tweet via twikit (async dibungkus sinkron)
-│   ├── x_transaction_patch.py  # tambalan anti-bot X untuk twikit (lihat catatan)
-│   ├── preprocessing.py        # clean → tokenize → slang → stopword → stemming
-│   ├── labelling.py            # labelling sentimen berbasis lexicon
-│   ├── modeling.py             # TF-IDF + SVM + SMOTE: train/eval/save/load/predict
-│   ├── storage.py              # simpan file pendukung hasil upload + invalidasi cache
-│   └── defaults/
-│       └── kamus_slang_default.csv   # kamus slang BAWAAN (selalu ada, ikut repo)
-│
-├── data/                       # file pendukung (upload tersimpan ke sini)
-│   ├── full_lexicon.csv        # lexicon labelling (WAJIB)
-│   └── kamus_slang.csv         # kamus slang tambahan (OPSIONAL, hasil upload)
-│
-├── models/
-│   └── svm_sentiment.joblib    # model tersimpan (vectorizer + classifier)
-│
-├── tests/                      # pytest (62 tes)
-│   ├── test_crawling.py
-│   ├── test_x_transaction_patch.py
-│   ├── test_preprocessing.py
-│   ├── test_labelling.py
-│   ├── test_modeling.py
-│   └── test_storage.py
-│
-└── docs/                       # notebook asli skripsi (referensi)
-    ├── Codingan_Preprocessing_Data.ipynb
-    ├── Codingan labelling.ipynb
-    ├── Copy of crawling PPN
-    └── Pembobotan Kata(TF-IDF,SVM,DLL)
-```
-
----
-
 ## Arsitektur & Modul
 
 `app.py` adalah lapisan UI tipis; semua logika ada di paket `src/` supaya bisa
@@ -115,39 +67,6 @@ di-tes tanpa menjalankan Streamlit.
 
 Alur data antar tahap dijaga di `st.session_state` (`df_raw` → `df_pre` → `df_label`
 → `train_result`).
-
----
-
-## Prasyarat & Setup
-
-### Wajib Python 3.10+ (proyek dibuat dengan **3.12**)
-
-twikit modern (dipakai crawling) memakai sintaks union `X | Y` di level modul yang
-baru sah di **Python 3.10+** → gagal di-import di Python 3.9.
-
-macOS (Homebrew):
-
-```bash
-brew install python@3.12
-```
-
-### Buat virtualenv & install dependency
-
-```bash
-# venv lokal di dalam project — pakai Python 3.12
-/opt/homebrew/opt/python@3.12/bin/python3.12 -m venv .venv
-
-.venv/bin/pip install -r requirements.txt
-.venv/bin/pip install pytest          # dev-only, tidak ada di requirements.txt
-```
-
-> **Unduhan otomatis saat pertama jalan:** NLTK stopwords Indonesian diunduh otomatis,
-> dan Sastrawi memuat data stemmer-nya sendiri. Butuh koneksi internet sekali di awal.
-
-### Dependency utama (`requirements.txt`)
-
-`streamlit`, `pandas`, `numpy`, `scikit-learn`, `imbalanced-learn`, `Sastrawi`,
-`nltk`, `matplotlib`, `seaborn`, `joblib`, `openpyxl`, `twikit>=2.3,<3`, `httpx`.
 
 ---
 
@@ -190,20 +109,6 @@ buruk,-4,1
 [Known Issues](#known-issues--quirk-yang-disengaja)).
 
 Status tiap file ditampilkan sebagai badge di sidebar.
-
----
-
-## Menjalankan Aplikasi
-
-```bash
-.venv/bin/streamlit run app.py
-```
-
-Browser otomatis terbuka ke `http://localhost:8501`.
-
-> **Setelah mengubah `.streamlit/config.toml` atau kode modul `src/`,** hentikan total
-> (Ctrl+C) lalu jalankan ulang — "Rerun" di UI **tidak** memuat ulang modul yang sudah
-> di-import maupun tema.
 
 ---
 
@@ -379,30 +284,6 @@ Semua di `src/config.py`:
 
 ---
 
-## Tema / Tampilan
-
-Tema dark modern diatur di `.streamlit/config.toml` (latar gelap, aksen teal
-`#2DD4BF`). Ubah hex di sana untuk menyetel warna tanpa menyentuh kode.
-
-`app.py` menambah: hero header bergradien, stepper progres pipeline, badge status
-sidebar, dan menyelaraskan chart matplotlib agar transparan + teks terang. Sebagian
-kecil CSS menarget elemen internal Streamlit (mis. padding sidebar) — **rapuh
-terhadap update Streamlit**; kalau lepas, hanya efek kosmetik yang hilang.
-
----
-
-## Pengujian (Tes)
-
-```bash
-.venv/bin/python -m pytest -q
-```
-
-62 tes (semua mock jaringan — tak menyentuh X asli). Cakupan: query builder &
-paginasi crawl, parser respons GraphQL, resolver query-ID & patch transaction-id,
-preprocessing (fungsi murni), merge kamus slang, labelling, modeling, storage upload.
-
----
-
 ## Perbedaan vs Notebook Asli
 
 | Hal | Notebook asli | Di aplikasi ini |
@@ -414,18 +295,6 @@ preprocessing (fungsi murni), merge kamus slang, labelling, modeling, storage up
 | Persistensi | model tak disimpan | disimpan `joblib` → prediksi tanpa training ulang |
 | SMOTE k_neighbors | default 6, error kalau kelas kecil | adaptif ke ukuran kelas terkecil per fold |
 | Crawl | tweet-harvest (Node + Playwright) | twikit (pure-Python) + patch anti-bot |
-
----
-
-## Known Issues / Quirk yang Disengaja
-
-Dipertahankan agar hasil cocok dengan skripsi asli:
-
-- **Expand repeated words** (`"data4"` → `"data data data data"`): bug regex bawaan
-  yang bisa merusak token alfanumerik (mis. `covid19`). Lihat komentar di
-  `src/preprocessing.py`.
-- **Labelling unigram-only**: kolom `number_of_words` (n-gram) diabaikan.
-- **`%` sengaja tidak dihapus** saat cleaning (menjaga token seperti `12%`).
 
 ---
 
