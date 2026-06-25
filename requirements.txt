@@ -1,0 +1,17 @@
+streamlit>=1.32
+pandas>=2.0
+numpy>=1.26
+scikit-learn>=1.4
+imbalanced-learn>=0.12
+Sastrawi>=1.0.1
+nltk>=3.8
+matplotlib>=3.8
+seaborn>=0.13
+joblib>=1.3
+openpyxl>=3.1
+# twikit modern (butuh Python 3.10+): handle x-client-transaction-id. Versi <2.x tak
+# punya itu → X balas 404. Tapi 2.3.3 pun perlu patch lokal (lihat src/x_transaction_patch.py
+# & src/crawling.py): get_indices, query-ID, dan parsing respons sudah ketinggalan skema X.
+twikit>=2.3,<3
+# httpx: dipakai langsung untuk resolve query-ID & temukan ondemand.s (transitif twikit juga).
+httpx

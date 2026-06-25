@@ -1,0 +1,10 @@
+# Theme dark modern — aksen teal di atas latar gelap netral.
+# Hanya opsi theme inti (stabil lintas versi Streamlit). Ubah hex di sini untuk
+# menyetel warna tanpa menyentuh kode app.
+[theme]
+base = "dark"
+primaryColor = "#2DD4BF"             # teal — tombol/aksen/fokus
+backgroundColor = "#0F1419"          # latar utama
+secondaryBackgroundColor = "#1A222C" # sidebar, card, input
+textColor = "#E6EDF3"                # teks utama
+font = "sans serif"

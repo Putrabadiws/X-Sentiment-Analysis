@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Virtual environment
+.venv/
+venv/
+
+# OS
+.DS_Store
+
+# Claude Code local config
+.claude/
+
+# Streamlit secrets (jangan commit token)
+.streamlit/secrets.toml
+
+# Artefak model terlatih (binary, bisa di-regenerate via tab Training)
+models/*.joblib
