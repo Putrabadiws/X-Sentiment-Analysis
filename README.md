@@ -12,26 +12,22 @@ Model: **TF-IDF + SVM (kernel sigmoid)** dengan **SMOTE** untuk menyeimbangkan k
 labelling **berbasis lexicon** (InSet-style), preprocessing Bahasa Indonesia penuh
 (slang, stopword NLTK, stemming Sastrawi).
 
+![Tampilan aplikasi Analisis Sentimen X](asset/app.jpeg)
+
 ---
 
 ## Daftar Isi
 
 1. [Fitur](#fitur)
-2. [Struktur Proyek](#struktur-proyek)
-3. [Arsitektur & Modul](#arsitektur--modul)
-4. [Prasyarat & Setup](#prasyarat--setup)
-5. [File yang Dibutuhkan](#file-yang-dibutuhkan)
-6. [Menjalankan Aplikasi](#menjalankan-aplikasi)
-7. [Panduan Pemakaian per Tab](#panduan-pemakaian-per-tab)
-8. [Detail Pipeline](#detail-pipeline)
-9. [Crawling X (twikit) — Detail](#crawling-x-twikit--detail)
-10. [Konfigurasi](#konfigurasi)
-11. [Tema / Tampilan](#tema--tampilan)
-12. [Pengujian (Tes)](#pengujian-tes)
-13. [Perbedaan vs Notebook Asli](#perbedaan-vs-notebook-asli)
-14. [Known Issues / Quirk yang Disengaja](#known-issues--quirk-yang-disengaja)
-15. [Troubleshooting](#troubleshooting)
-16. [Catatan Keamanan](#catatan-keamanan)
+2. [Arsitektur & Modul](#arsitektur--modul)
+3. [File yang Dibutuhkan](#file-yang-dibutuhkan)
+4. [Panduan Pemakaian per Tab](#panduan-pemakaian-per-tab)
+5. [Detail Pipeline](#detail-pipeline)
+6. [Crawling X (twikit) — Detail](#crawling-x-twikit--detail)
+7. [Konfigurasi](#konfigurasi)
+8. [Perbedaan vs Notebook Asli](#perbedaan-vs-notebook-asli)
+9. [Troubleshooting](#troubleshooting)
+10. [Catatan Keamanan](#catatan-keamanan)
 
 ---
 
