@@ -101,8 +101,8 @@ bagus,5,1
 buruk,-4,1
 ```
 
-`number_of_words` (n-gram) **diabaikan** — scoring unigram-only (lihat
-[Known Issues](#known-issues--quirk-yang-disengaja)).
+`number_of_words` (n-gram) **diabaikan** — scoring unigram-only (lihat bagian
+Labelling di Detail Pipeline).
 
 Status tiap file ditampilkan sebagai badge di sidebar.
 
@@ -256,6 +256,11 @@ Mencetak versi twikit, status cookie, lalu coba ambil 5 tweet + traceback penuh 
 
 Upload CSV hasil crawl yang sudah ada (mis. `Data_Crawling_Bersih.csv` /
 `datasetSelected`) langsung di tab Preprocessing — lewati tab Crawl sepenuhnya.
+
+Tab Preprocessing juga menerima export lokal TweetClaw/OpenClaw (`.json`,
+`.jsonl`, `.ndjson`, atau `.csv`). Export ini dinormalisasi ke kolom `full_text`,
+sehingga hasil review TweetClaw bisa langsung masuk ke pipeline preprocessing,
+labelling, training, dan prediksi tanpa crawl ulang.
 
 ---
 
