@@ -14,7 +14,15 @@ import pandas as pd
 import seaborn as sns
 import streamlit as st
 
-from src import config, crawling, labelling, modeling, preprocessing, storage
+from src import (
+    config,
+    crawling,
+    labelling,
+    modeling,
+    preprocessing,
+    storage,
+    tweetclaw_import,
+)
 
 st.set_page_config(page_title="Analisis Sentimen X", page_icon="📊", layout="wide")
 config.ensure_dirs()
@@ -290,10 +298,27 @@ with tab_pre:
         "Tahap: cleaning → tokenizing → normalisasi slang → stopword → stemming. "
         "Kamus slang pakai **default bawaan** (+ tambahan dari sidebar bila ada)."
     )
-    uploaded = st.file_uploader("Upload CSV tweet (atau pakai hasil crawl)", type=["csv"])
+    uploaded = st.file_uploader(
+        "Upload CSV/JSON tweet (atau pakai hasil crawl)",
+        type=["csv", "json", "jsonl", "ndjson"],
+    )
     df_in = None
     if uploaded is not None:
-        df_in = pd.read_csv(uploaded)
+        if uploaded.name.lower().endswith((".json", ".jsonl", ".ndjson")):
+            try:
+                df_in = tweetclaw_import.load_tweetclaw_export(
+                    uploaded.getvalue(),
+                    uploaded.name,
+                )
+                st.info("Memakai export TweetClaw/OpenClaw lokal.")
+            except ValueError as e:
+                st.error(str(e))
+        else:
+            df_in = pd.read_csv(uploaded)
+            try:
+                df_in = tweetclaw_import.normalize_tweet_rows(df_in)
+            except ValueError:
+                pass
     elif _get("df_raw") is not None:
         df_in = _get("df_raw")
         st.info("Memakai hasil crawl dari tab 1.")
